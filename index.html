@@ -8,39 +8,14 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <style>
-        #map{
-            height: 90vh;
-            width: 100%;
+        /* Estilos generales */
+        body {
+            margin: 0;
+            padding: 0;
         }
 
-        .info {
-    padding: 6px 8px;
-    font: 24px/34px Garamond, Garamond, Garamond;
-    background: white;
-    background: rgba(255,255,255,0.8);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    border-radius: 10px;
-}
-.info h4 {
-    margin: 0 0 5px;
-    color: #777;
-}
-
-.legend {
-    line-height: 18px;
-    color: #555;
-}
-.legend i {
-    width: 18px;
-    height: 18px;
-    float: left;
-    margin-right: 8px;
-    opacity: 0.7;
-}
-
-
-
-h1 {
+        /* Estilos para el encabezado */
+        h1 {
             position: relative;
             color: rgb(238, 149, 16);
             font-family: Arial;
@@ -48,28 +23,32 @@ h1 {
             background-color: black;
             padding: 15px;
             margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        
+
         h1 a {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
             color: white;
             text-decoration: none;
+            margin: 0 10px;
         }
-        
-        h1 a:nth-child(2) {
-            left: auto;
-            right: 15px;
+
+        /* Estilos para el mapa */
+        #map {
+            height: 90vh;
+            width: 100%;
         }
     </style>
 </head>
+<body>
     <h1>
-        <a href="data/FAQ6.html">Documentation</a>
+        <a href="data\FAQ6.html">Documentation</a>
         Flash Flooding Hazard Zones for Charleston, West Virginia
         <a href="https://github.com/Xeelt">Sources</a>
+        <a href="https://www.theweathernetwork.com/en/maps/radar">Actual Weather</a>
     </h1>
+    
 
     <div id="map"></div>
 </body>
