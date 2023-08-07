@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flooding Intensity for West Virginia</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <style>
+        #map{
+            height: 88vh;
+            width: 100%;
+        }
+
+        .info {
+    padding: 6px 8px;
+    font: 24px/34px Garamond, Garamond, Garamond;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 10px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+.legend {
+    line-height: 18px;
+    color: #555;
+}
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+h1{
+    color:rgb(238, 149, 16) ;
+    font-family: Verdana;
+    text-align: center;
+    background-color: black;
+    padding: 15px;
+}
+h2{
+    color:rgb(0, 0, 0) ;
+    font-family: times;
+    text-align: left;
+    background-color: rgb(255, 255, 255);
+    padding: 1px;
+}
+
+
+    </style>
+
+</head>
+
+<h1>Flash Flooding Hazard Zones for Charleston, West Virginia</h1>
+<body>
+    <a href="data/FAQ6.html"> <b><h2>Documentation</h2></a>
+    <div id="map"></div>
+</body>
+</html>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<script src="./data/A1P.js"></script>
+<script src="./data/A2P.js"></script>
+<script src="./data/A7P.js"></script>
+<script src="./data/A14P.js"></script>
+<script src="./data/A18P.js"></script>
+<script src="./data/A20P.js"></script>
+<script src="./data/A26P.js"></script>
+<script src="./data/A30P.js"></script>
+<script src="./data/A32P.js"></script>
+<script src="./data/A35P.js"></script>
+<script src="./data/A36P.js"></script>
+<script src="./data/A37P.js"></script>
+<script src="./data/A38P.js"></script>
+
+<script>
+
+/*===================================================
+                      OSM  LAYER               
+===================================================*/
+
+    var map = L.map('map').setView([38.43804,-81.88454], 12);
+var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+});
+osm.addTo(map);
+
+/*===================================================
+                     TILE LAYER               
+===================================================*/
+
+var CartoDB_DarkMatter = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+subdomains: 'abcd',
+	maxZoom: 19
+});
+CartoDB_DarkMatter.addTo(map);
+
+// Google Map Layer
+
+googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+ });
+ googleStreets.addTo(map);
+
+ // Satelite Layer
+googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+   maxZoom: 20,
+   subdomains:['mt0','mt1','mt2','mt3']
+ });
+googleSat.addTo(map);
+
+var Stamen_Watercolor = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}', {
+ attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+subdomains: 'abcd',
+minZoom: 1,
+maxZoom: 16,
+ext: 'jpg'
+});
+Stamen_Watercolor.addTo(map);
+/*===================================================
+                      LAYER CONTROL               
+===================================================*/
+var baseLayers = {
+    "Satellite":googleSat,
+    "Google Map":googleStreets,
+    "Water Color":Stamen_Watercolor,
+    "OpenStreetMap": osm,
+};
+
+L.control.layers(baseLayers).addTo(map);
+
+/*===================================================
+                      SEARCH BUTTON               
+===================================================*/
+
+L.Control.geocoder().addTo(map);
+
+/*===================================================
+                      Choropleth Map               
+===================================================*/
+
+L.geoJSON(A1P).addTo(map);
+L.geoJSON(A2P).addTo(map);
+L.geoJSON(A7P).addTo(map);
+L.geoJSON(A14P).addTo(map);
+L.geoJSON(A18P).addTo(map);
+L.geoJSON(A20P).addTo(map);
+L.geoJSON(A26P).addTo(map);
+L.geoJSON(A30P).addTo(map);
+L.geoJSON(A32P).addTo(map);
+L.geoJSON(A35P).addTo(map);
+L.geoJSON(A36P).addTo(map);
+L.geoJSON(A37P).addTo(map);
+L.geoJSON(A38P).addTo(map);
+
+function getColor(d) {
+    return d > 2.1 ? '#800026' :
+           d > 1.1  ? '#FFFF00' :
+           d > 0.1  ? '#008000' :
+                       'transparent';
+}
+
+function style(feature) {
+        return {
+        fillColor: getColor(feature.properties.density),
+        weight: 1,
+        opacity: 0.1,
+        color: '#ffffff00',
+        dashArray: '1',
+        fillOpacity: 0.5
+    };
+}
+
+L.geoJson(A1P, A2P, A7P, A14P, A18P, A20P, A26P, A30P, A32P, A35P, A36P, A38P,{style: style}).addTo(map);
+
+
+function highlightFeature(e) {
+    var layer = e.target;
+
+    layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
+    });
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+
+    info.update(layer.feature.properties);
+}
+
+function resetHighlight(e) {
+    geojson.resetStyle(e.target);
+    info.update();
+}
+
+var geojson;
+// ... our listeners
+geojson = L.geoJson(A1P, A2P, A7P, A14P, A18P, A20P, A26P, A30P, A32P, A35P, A36P, A38P);
+
+
+function zoomToFeature(e) {
+    map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature
+    });
+}
+
+geojson = L.geoJson(A2P, {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
+geojson = L.geoJson(A1P,  {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
+geojson = L.geoJson(A7P,  {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
+geojson = L.geoJson(A14P, {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
+geojson = L.geoJson(A18P,  {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
+geojson = L.geoJson(A20P,  {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
+geojson = L.geoJson(A26P, {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
+geojson = L.geoJson(A30P,  {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
+geojson = L.geoJson(A32P,  {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
+geojson = L.geoJson(A32P, {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
+geojson = L.geoJson(A35P,  {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
+geojson = L.geoJson(A37P,  {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
+geojson = L.geoJson(A38P,  {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
+
+
+
+var info = L.control();
+
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
+};
+
+// method that we will use to update the control based on feature properties passed
+info.update = function (props) {
+    this._div.innerHTML = '<h4> Kanawha River Flooding Intensity (Levels: 1, 2, 3)</h4>' +  (props ?
+        '<b>  '+  'Level  '  + props.density 
+        : 'Hover over a zone');
+};
+
+info.addTo(map);
+
+
+
+
+var legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = [1, 2, 3],
+        labels = ['Level 1:Low', 'Level 2:Medium', 'Level 3:High'];
+        div.innerHTML='<h4> Hazard Flooding Intensity</h4>';
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < labels.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getColor(grades[i] ) + '"></i> ' +
+            '<b>  '+ labels[i] + (labels[i] ? '' + '<br>' : '+');
+    }
+
+    return div;
+};
+
+legend.addTo(map);
+</script>
