@@ -23,18 +23,28 @@
             background-color: black;
             padding: 15px;
             margin: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
-        h1 a {
+        .title {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .buttons a {
             color: white;
             text-decoration: none;
             margin: 0 10px;
         }
 
-        /* Estilos para el mapa */
+        
         #map {
             height: 90vh;
             width: 100%;
@@ -43,12 +53,14 @@
 </head>
 <body>
     <h1>
-        <a href="data\FAQ6.html">Documentation</a>
-        Flash Flooding Hazard Zones for Charleston, West Virginia
-        <a href="https://github.com/Xeelt">Sources</a>
-        <a href="https://www.theweathernetwork.com/en/maps/radar">Actual Weather</a>
+        <div class="title">Flash Flooding Hazard Zones for Charleston, West Virginia</div>
+        <div class="buttons">
+            <a href="main\index.html">Documentation</a>
+            <a href="https://github.com/Xeelt">Sources</a>
+            <a href="https://www.theweathernetwork.com/en/maps/radar">Actual Weather</a>
+        </div>
     </h1>
-    
+ 
 
     <div id="map"></div>
 </body>
